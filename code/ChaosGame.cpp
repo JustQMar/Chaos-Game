@@ -50,6 +50,7 @@ int main()
                     {
                         ///fourth click
                         ///push back to points vector
+                        points.push_back(Vector2f(event.mouseButton.x, event.mouseButton.y));
                     }
                 }
             }
@@ -70,6 +71,7 @@ int main()
             ///select random vertex
             ///calculate midpoint between random vertex and the last point in the vector
             ///push back the newly generated coord.
+            points.push_back(Vector2f(event.mouseButton.x, event.mouseButton.y));
         }
 
         /*
