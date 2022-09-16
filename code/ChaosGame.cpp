@@ -67,11 +67,12 @@ int main()
 
         if(points.size() > 0)
         {
-            ///generate more point(s)
-            ///select random vertex
-            ///calculate midpoint between random vertex and the last point in the vector
-            ///push back the newly generated coord.
-            points.push_back(Vector2f(event.mouseButton.x, event.mouseButton.y));
+            //generate more point(s)
+            //select random vertex 
+            //calculate midpoint between random vertex and the last point in the vector
+            //push back the newly generated coord.
+            int random = (rand() % 3);
+            points.push_back(Vector2f( (vertices[random].x + points[points.size() - 1].x) / 2, (vertices[random].y + points[points.size() - 1].y) / 2));
         }
 
         /*
@@ -85,6 +86,13 @@ int main()
             RectangleShape rect(Vector2f(10,10));
             rect.setPosition(Vector2f(vertices[i].x, vertices[i].y));
             rect.setFillColor(Color::Blue);
+            window.draw(rect);
+        }
+        for (int i = 0; i < points.size(); i++)
+        {
+            RectangleShape rect(Vector2f(5, 5));
+            rect.setPosition(Vector2f(points[i].x, points[i].y));
+            rect.setFillColor(Color::Red);
             window.draw(rect);
         }
         window.display();
