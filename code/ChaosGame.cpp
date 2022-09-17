@@ -14,10 +14,31 @@ int main()
     // Create a video mode object
 	VideoMode vm(1920, 1080);
 	// Create and open a window for the game
-	RenderWindow window(vm, "Chaos Game!!", Style::Default);
+	RenderWindow window(vm, "Chaos Game!", Style::Default);
 
     vector<Vector2f> vertices;
     vector<Vector2f> points;
+    int numberOfPoints = 4;
+    int lastvertex = 0;
+
+    Font font;
+    font.loadFromFile("fonts/KOMIKAP_.ttf");
+   
+
+    Text text;
+
+    // select the font
+    text.setFont(font); // font is a sf::Font
+    // set the string to display
+    text.setString("Left click three points to start. Then click a fourth time and watch the Chaos unfold.");
+    // set the character size
+    text.setCharacterSize(24); // in pixels, not points!
+    // set the color
+    text.setFillColor(Color::White);
+    // set the text style
+    text.setStyle(Text::Bold | Text::Underlined);
+
+
 
 	while (window.isOpen())
 	{
@@ -34,15 +55,15 @@ int main()
 				// Quit the game when the window is closed
 				window.close();
             }
-            if (event.type == sf::Event::MouseButtonPressed)
+            if (event.type == Event::MouseButtonPressed)
             {
-                if (event.mouseButton.button == sf::Mouse::Left)
+                if (event.mouseButton.button == Mouse::Left)
                 {
-                    std::cout << "the left button was pressed" << std::endl;
-                    std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-                    std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+                    std::cout << "the left button was pressed" << endl;
+                    std::cout << "mouse x: " << event.mouseButton.x << endl;
+                    std::cout << "mouse y: " << event.mouseButton.y << endl;
 
-                    if(vertices.size() < 3)
+                    if(vertices.size() < numberOfPoints)
                     {
                         vertices.push_back(Vector2f(event.mouseButton.x, event.mouseButton.y));
                     }
@@ -71,7 +92,14 @@ int main()
             //select random vertex 
             //calculate midpoint between random vertex and the last point in the vector
             //push back the newly generated coord.
-            int random = (rand() % 3);
+            
+            int random;             
+            do 
+            {
+                random = rand() % numberOfPoints;
+            } while (lastvertex == random);
+            lastvertex = random;
+            
             points.push_back(Vector2f( (vertices[random].x + points[points.size() - 1].x) / 2, (vertices[random].y + points[points.size() - 1].y) / 2));
         }
 
@@ -81,6 +109,10 @@ int main()
 		****************************************
 		*/
         window.clear();
+
+        // inside the main loop, between window.clear() and window.display()
+        window.draw(text);
+
         for(int i = 0; i < vertices.size(); i++)
         {
             RectangleShape rect(Vector2f(10,10));
