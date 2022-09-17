@@ -18,8 +18,8 @@ int main()
 
     vector<Vector2f> vertices;
     vector<Vector2f> points;
-    int numberOfPoints = 3;
-    //int lastvertex = 0;
+    int numberOfPoints = 0;
+    int lastvertex = 0;
 
     Font font;
     font.loadFromFile("fonts/KOMIKAP_.ttf");
@@ -30,13 +30,13 @@ int main()
     // select the font
     text.setFont(font); // font is a sf::Font
     // set the string to display
-    text.setString("Left click three points to start. Then click a fourth time and watch the Chaos unfold.");
+    text.setString("Left click a minimum of 3 points to start. Then right click and watch the Chaos unfold.");
     // set the character size
     text.setCharacterSize(24); // in pixels, not points!
     // set the color
     text.setFillColor(Color::White);
     // set the text style
-    text.setStyle(Text::Bold | Text::Underlined);
+    text.setStyle(Text::Bold);
 
 
 
@@ -63,11 +63,16 @@ int main()
                     std::cout << "mouse x: " << event.mouseButton.x << endl;
                     std::cout << "mouse y: " << event.mouseButton.y << endl;
 
+                    numberOfPoints = numberOfPoints + 1;
+
                     if(vertices.size() < numberOfPoints)
                     {
                         vertices.push_back(Vector2f(event.mouseButton.x, event.mouseButton.y));
                     }
-                    else if(points.size() == 0)
+                }
+                else if (event.mouseButton.button == Mouse::Right)
+                {
+                    if(points.size() == 0)
                     {
                         ///fourth click
                         ///push back to points vector
@@ -86,16 +91,24 @@ int main()
 		****************************************
 		*/
 
-        if(points.size() > 0)
+        if (points.size() > 0)
         {
             //generate more point(s)
             //select random vertex 
             //calculate midpoint between random vertex and the last point in the vector
             //push back the newly generated coord.
-            
-            int random = rand() % numberOfPoints;
-            //do { random = rand() % numberOfPoints;} while (lastvertex == random);
-            //lastvertex = random;
+
+            int random; 
+            if (numberOfPoints == 3)
+            {
+                random = rand() % numberOfPoints;
+            }
+            else
+            {
+                do { random = rand() % numberOfPoints; } while (lastvertex == random);
+                lastvertex = random;
+            }
+
             
             points.push_back(Vector2f( (vertices[random].x + points[points.size() - 1].x) / 2, (vertices[random].y + points[points.size() - 1].y) / 2));
         }
