@@ -18,8 +18,8 @@ int main()
 
     vector<Vector2f> vertices;
     vector<Vector2f> points;
-    int numberOfPoints = 4;
-    int lastvertex = 0;
+    int numberOfPoints = 3;
+    //int lastvertex = 0;
 
     Font font;
     font.loadFromFile("fonts/KOMIKAP_.ttf");
@@ -93,12 +93,9 @@ int main()
             //calculate midpoint between random vertex and the last point in the vector
             //push back the newly generated coord.
             
-            int random;             
-            do 
-            {
-                random = rand() % numberOfPoints;
-            } while (lastvertex == random);
-            lastvertex = random;
+            int random = rand() % numberOfPoints;
+            //do { random = rand() % numberOfPoints;} while (lastvertex == random);
+            //lastvertex = random;
             
             points.push_back(Vector2f( (vertices[random].x + points[points.size() - 1].x) / 2, (vertices[random].y + points[points.size() - 1].y) / 2));
         }
