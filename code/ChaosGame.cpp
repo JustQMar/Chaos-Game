@@ -20,6 +20,8 @@ int main()
     vector<Vector2f> points;
     int numberOfPoints = 0;
     int lastvertex = 0;
+    
+
 
     Font font;
     font.loadFromFile("fonts/KOMIKAP_.ttf");
@@ -30,7 +32,7 @@ int main()
     // select the font
     text.setFont(font); // font is a sf::Font
     // set the string to display
-    text.setString("Left click a minimum of 3 points to start. Then right click and watch the Chaos unfold.");
+    text.setString("Left click 3 or 4 points to start. Then right click and watch the Chaos unfold.");
     // set the character size
     text.setCharacterSize(24); // in pixels, not points!
     // set the color
@@ -74,6 +76,9 @@ int main()
                 {
                     if(points.size() == 0)
                     {
+                        std::cout << "the right button was pressed" << endl;
+                        std::cout << "mouse x: " << event.mouseButton.x << endl;
+                        std::cout << "mouse y: " << event.mouseButton.y << endl;
                         ///fourth click
                         ///push back to points vector
                         points.push_back(Vector2f(event.mouseButton.x, event.mouseButton.y));
@@ -105,7 +110,7 @@ int main()
             }
             else
             {
-                do { random = rand() % numberOfPoints; } while (lastvertex == random);
+                do {random = rand() % numberOfPoints;} while (lastvertex == random);
                 lastvertex = random;
             }
 
@@ -123,12 +128,17 @@ int main()
         // inside the main loop, between window.clear() and window.display()
         window.draw(text);
 
+        
+        
+
         for(int i = 0; i < vertices.size(); i++)
         {
             RectangleShape rect(Vector2f(10,10));
             rect.setPosition(Vector2f(vertices[i].x, vertices[i].y));
             rect.setFillColor(Color::Blue);
             window.draw(rect);
+            
+  
         }
         for (int i = 0; i < points.size(); i++)
         {
@@ -137,6 +147,7 @@ int main()
             rect.setFillColor(Color::Red);
             window.draw(rect);
         }
+        
         window.display();
     }
 }
